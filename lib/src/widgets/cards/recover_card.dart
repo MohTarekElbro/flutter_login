@@ -27,6 +27,7 @@ class _RecoverCard extends StatefulWidget {
 class _RecoverCardState extends State<_RecoverCard>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formRecoverKey = GlobalKey();
+  late LoginUserType userType;
 
   bool _isSubmitting = false;
 
@@ -37,7 +38,9 @@ class _RecoverCardState extends State<_RecoverCard>
   @override
   void initState() {
     super.initState();
-
+    userType = widget.userType == LoginUserType.email
+        ? LoginUserType.email
+        : LoginUserType.intlPhone;
     final auth = Provider.of<Auth>(context, listen: false);
     _nameController = TextEditingController(text: auth.email);
 
@@ -90,12 +93,12 @@ class _RecoverCardState extends State<_RecoverCard>
     return AnimatedTextFormField(
       controller: _nameController,
       loadingController: widget.loadingController,
-      userType: widget.userType,
+      userType: userType,
       width: width,
       labelText: messages.userHint,
       prefixIcon: const Icon(FontAwesomeIcons.solidCircleUser),
-      keyboardType: TextFieldUtils.getKeyboardType(widget.userType),
-      autofillHints: [TextFieldUtils.getAutofillHints(widget.userType)],
+      keyboardType: TextFieldUtils.getKeyboardType(userType),
+      autofillHints: [TextFieldUtils.getAutofillHints(userType)],
       textInputAction: TextInputAction.done,
       onFieldSubmitted: (value) => _submit(),
       validator: widget.userValidator,
@@ -210,26 +213,26 @@ class _RecoverCardState extends State<_RecoverCard>
         onPressed: () {
           // save state to populate email field on recovery card
           // widget.onSwitchPhoneNumber();
-          if (widget.userType == LoginUserType.email) {
+          if (userType == LoginUserType.email) {
             if (!auth.isLogin) {
               // _switchAuthController.reverse().then((value) {
               setState(() {
-                widget.userType = LoginUserType.intlPhone;
+                userType = LoginUserType.intlPhone;
               });
               // });
             } else {
               setState(() {
-                widget.userType = LoginUserType.intlPhone;
+                userType = LoginUserType.intlPhone;
               });
             }
           } else {
             setState(() {
-              widget.userType = LoginUserType.email;
+              userType = LoginUserType.email;
             });
           }
         },
         child: Text(
-          widget.userType == LoginUserType.email
+          userType == LoginUserType.email
               ? messages.signInWithPhoneButton
               : messages.defaultsignInWithEmail,
           style: TextStyle(

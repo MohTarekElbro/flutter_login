@@ -57,6 +57,8 @@ class _LoginCard extends StatefulWidget {
 class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
+  late LoginUserType userType;
+
   final _userFieldKey = GlobalKey<FormFieldState>();
   final _userFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
@@ -89,7 +91,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    userType = widget.userType == LoginUserType.email
+        ? LoginUserType.email
+        : LoginUserType.intlPhone;
     final auth = Provider.of<Auth>(context, listen: false);
     _nameController = TextEditingController(text: auth.email);
     _phoneController = TextEditingController(text: auth.phone);
@@ -195,7 +199,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
     auth.authType = AuthType.userPassword;
 
-    if (widget.userType == LoginUserType.intlPhone) {
+    if (userType == LoginUserType.intlPhone) {
       auth.phone = _phoneController.text;
       error = await auth.onPhoneLogin?.call(
         PhoneLoginData(
@@ -370,17 +374,16 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   ) {
     return AnimatedTextFormField(
       textFormFieldKey: _userFieldKey,
-      userType: widget.userType,
+      userType: userType,
       controller: _nameController,
       width: width,
       loadingController: widget.loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
-      labelText: TextFieldUtils.getLabelText(widget.userType, messages),
-      autofillHints: _isSubmitting
-          ? null
-          : [TextFieldUtils.getAutofillHints(widget.userType)],
-      prefixIcon: TextFieldUtils.getPrefixIcon(widget.userType),
-      keyboardType: TextFieldUtils.getKeyboardType(widget.userType),
+      labelText: TextFieldUtils.getLabelText(userType, messages),
+      autofillHints:
+          _isSubmitting ? null : [TextFieldUtils.getAutofillHints(userType)],
+      prefixIcon: TextFieldUtils.getPrefixIcon(userType),
+      keyboardType: TextFieldUtils.getKeyboardType(userType),
       textInputAction: TextInputAction.next,
       focusNode: _userFocusNode,
       onFieldSubmitted: (value) {
@@ -400,15 +403,15 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     return AnimatedTextFormField(
       controller: _phoneController,
       loadingController: widget.loadingController,
-      userType: widget.userType,
+      userType: userType,
       width: width,
       focusNode: _userFocusNode,
       interval: _nameTextFieldLoadingAnimationInterval,
 
-      labelText: TextFieldUtils.getLabelText(widget.userType, messages),
+      labelText: TextFieldUtils.getLabelText(userType, messages),
       prefixIcon: const Icon(FontAwesomeIcons.solidCircleUser),
-      keyboardType: TextFieldUtils.getKeyboardType(widget.userType),
-      autofillHints: [TextFieldUtils.getAutofillHints(widget.userType)],
+      keyboardType: TextFieldUtils.getKeyboardType(userType),
+      autofillHints: [TextFieldUtils.getAutofillHints(userType)],
       textInputAction: TextInputAction.done,
       onFieldSubmitted: (value) => _submit(),
       validator: widget.phoneValidator,
@@ -428,12 +431,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       width: width,
       loadingController: widget.loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
-      labelText: TextFieldUtils.getLabelText(widget.userType, messages),
-      autofillHints: _isSubmitting
-          ? null
-          : [TextFieldUtils.getAutofillHints(widget.userType)],
-      prefixIcon: TextFieldUtils.getPrefixIcon(widget.userType),
-      keyboardType: TextFieldUtils.getKeyboardType(widget.userType),
+      labelText: TextFieldUtils.getLabelText(userType, messages),
+      autofillHints:
+          _isSubmitting ? null : [TextFieldUtils.getAutofillHints(userType)],
+      prefixIcon: TextFieldUtils.getPrefixIcon(userType),
+      keyboardType: TextFieldUtils.getKeyboardType(userType),
       textInputAction: TextInputAction.next,
       focusNode: _userFocusNode,
       onFieldSubmitted: (value) {
@@ -538,27 +540,27 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                 // save state to populate email field on recovery card
                 _formKey.currentState!.save();
                 // widget.onSwitchPhoneNumber();
-                if (widget.userType == LoginUserType.email) {
+                if (userType == LoginUserType.email) {
                   if (!auth.isLogin) {
                     // _switchAuthController.reverse().then((value) {
                     setState(() {
-                      widget.userType = LoginUserType.intlPhone;
+                      userType = LoginUserType.intlPhone;
                     });
                     // });
                   } else {
                     setState(() {
-                      widget.userType = LoginUserType.intlPhone;
+                      userType = LoginUserType.intlPhone;
                     });
                   }
                 } else {
                   setState(() {
-                    widget.userType = LoginUserType.email;
+                    userType = LoginUserType.email;
                   });
                 }
               }
             : null,
         child: Text(
-          widget.userType == LoginUserType.email
+          userType == LoginUserType.email
               ? messages.signInWithPhoneButton
               : messages.defaultsignInWithEmail,
           style: TextStyle(

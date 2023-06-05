@@ -214,6 +214,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
 
   void _changeCard(int newCardIndex) {
     final auth = Provider.of<Auth>(context, listen: false);
+    auth.email = "";
 
     auth.currentCardIndex = newCardIndex;
 

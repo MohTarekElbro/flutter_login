@@ -681,6 +681,7 @@ class _FlutterLoginState extends State<FlutterLogin>
     return theme.copyWith(
       primaryColor: primaryColor,
       primaryColorDark: primaryColorDark,
+
       cardTheme: theme.cardTheme.copyWith(
         clipBehavior: cardTheme.clipBehavior,
         color: cardTheme.color ?? theme.cardColor,
@@ -691,6 +692,8 @@ class _FlutterLoginState extends State<FlutterLogin>
       ),
       inputDecorationTheme: theme.inputDecorationTheme.copyWith(
         filled: inputTheme.filled,
+        prefixIconColor: loginTheme.inputTheme.prefixIconColor,
+        suffixIconColor: loginTheme.inputTheme.suffixIconColor,
         fillColor: inputTheme.fillColor ??
             Color.alphaBlend(
               primaryOrWhite.withOpacity(.07),

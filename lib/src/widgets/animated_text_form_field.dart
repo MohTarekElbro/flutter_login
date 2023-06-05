@@ -6,6 +6,7 @@ import 'package:flutter_login/flutter_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart' as pnp;
+import 'package:provider/provider.dart';
 
 enum TextFieldInertiaDirection {
   left,
@@ -162,14 +163,14 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
     }
 
     if (widget.userType == LoginUserType.intlPhone) {
-      _phoneNumberInitialValue = PhoneNumber(isoCode: 'US', dialCode: '+1');
+      _phoneNumberInitialValue = PhoneNumber(isoCode: 'EG', dialCode: '+2');
       if (widget.controller?.value.text != null) {
         try {
           final parsed = pnp.PhoneNumber.parse(widget.controller!.value.text);
           if (parsed.isValid()) {
             _phoneNumberInitialValue = PhoneNumber(
               phoneNumber: parsed.nsn,
-              isoCode: parsed.isoCode.name,
+              isoCode: "EG",
               dialCode: parsed.countryCode,
             );
           }
@@ -261,12 +262,14 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loginTheme = Provider.of<LoginTheme>(context, listen: false);
+
     Widget textField;
     if (widget.userType == LoginUserType.intlPhone) {
       textField = Padding(
         padding: const EdgeInsets.only(left: 8),
         child: InternationalPhoneNumberInput(
-          cursorColor: theme.primaryColor,
+          // cursorColor: theme.primaryColor,
           focusNode: widget.focusNode,
           inputDecoration: _getInputDecoration(theme),
           searchBoxDecoration: const InputDecoration(
@@ -315,12 +318,17 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
             ),
           ),
           spaceBetweenSelectorAndTextField: 0,
-          initialValue: _phoneNumberInitialValue,
+          selectorTextStyle: TextStyle(
+            color: loginTheme.inputTheme.labelStyle?.color,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          initialValue: PhoneNumber(isoCode: 'EG', dialCode: '+20'),
         ),
       );
     } else {
       textField = TextFormField(
-        cursorColor: theme.primaryColor,
+        // cursorColor: theme.primaryColor,
         controller: widget.controller,
         focusNode: widget.focusNode,
         decoration: _getInputDecoration(theme),
@@ -442,6 +450,8 @@ class _AnimatedPasswordTextFormFieldState
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return AnimatedTextFormField(
       interval: widget.interval,
       loadingController: widget.loadingController,
@@ -450,7 +460,11 @@ class _AnimatedPasswordTextFormFieldState
       enabled: widget.enabled,
       autofillHints: widget.autofillHints,
       labelText: widget.labelText,
-      prefixIcon: const Icon(FontAwesomeIcons.lock, size: 20),
+      prefixIcon: Icon(
+        FontAwesomeIcons.lock,
+        size: 20,
+        color: theme.inputDecorationTheme.prefixIconColor,
+      ),
       suffixIcon: GestureDetector(
         onTap: () => setState(() => _obscureText = !_obscureText),
         dragStartBehavior: DragStartBehavior.down,

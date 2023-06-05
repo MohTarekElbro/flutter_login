@@ -223,6 +223,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
+
       _pageIndex = newCardIndex;
     });
   }

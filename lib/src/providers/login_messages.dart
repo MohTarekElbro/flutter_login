@@ -7,6 +7,7 @@ class LoginMessages with ChangeNotifier {
     this.confirmPasswordHint = defaultConfirmPasswordHint,
     this.forgotPasswordButton = defaultForgotPasswordButton,
     this.signInWithPhoneButton = defaultsignInWithPhone,
+    this.phoneHint = phone,
     this.defaultsignInWithEmail = defaultsignInWithEmailc,
     this.loginButton = defaultLoginButton,
     this.signupButton = defaultSignupButton,
@@ -47,6 +48,7 @@ class LoginMessages with ChangeNotifier {
   static const defaultsignInWithEmailc = "Email and Password";
   static const defaultLoginButton = 'LOGIN';
   static const defaultSignupButton = 'SIGNUP';
+  static const phone = 'Phone';
   static const defaultRecoverPasswordButton = 'RECOVER';
   static const defaultRecoverPasswordIntro = 'Reset your password here';
   static const defaultRecoverPasswordDescription =
@@ -103,6 +105,7 @@ class LoginMessages with ChangeNotifier {
 
   /// Forgot password button's label
   final String signInWithPhoneButton;
+  final String? phoneHint;
 
   /// Login button's label
   final String loginButton;

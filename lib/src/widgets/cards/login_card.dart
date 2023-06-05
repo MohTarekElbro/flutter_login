@@ -375,8 +375,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       width: width,
       loadingController: widget.loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
-      labelText:
-          messages.userHint ?? TextFieldUtils.getLabelText(widget.userType),
+      labelText: TextFieldUtils.getLabelText(widget.userType, messages),
       autofillHints: _isSubmitting
           ? null
           : [TextFieldUtils.getAutofillHints(widget.userType)],
@@ -406,8 +405,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       focusNode: _userFocusNode,
       interval: _nameTextFieldLoadingAnimationInterval,
 
-      labelText:
-          messages.userHint ?? TextFieldUtils.getLabelText(widget.userType),
+      labelText: TextFieldUtils.getLabelText(widget.userType, messages),
       prefixIcon: const Icon(FontAwesomeIcons.solidCircleUser),
       keyboardType: TextFieldUtils.getKeyboardType(widget.userType),
       autofillHints: [TextFieldUtils.getAutofillHints(widget.userType)],
@@ -430,8 +428,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       width: width,
       loadingController: widget.loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
-      labelText:
-          messages.userHint ?? TextFieldUtils.getLabelText(widget.userType),
+      labelText: TextFieldUtils.getLabelText(widget.userType, messages),
       autofillHints: _isSubmitting
           ? null
           : [TextFieldUtils.getAutofillHints(widget.userType)],
@@ -528,7 +525,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildPhoneNumber(ThemeData theme, LoginMessages messages, Auth auth) {
+  Widget _buildPhoneNumber(
+      LoginTheme theme, LoginMessages messages, Auth auth) {
     return FadeIn(
       controller: widget.loadingController,
       fadeDirection: FadeDirection.bottomToTop,
@@ -542,13 +540,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                 // widget.onSwitchPhoneNumber();
                 if (widget.userType == LoginUserType.email) {
                   if (!auth.isLogin) {
-                    _switchAuthController.reverse().then((value) {
-                      final newAuthMode = auth.switchAuth();
-
-                      setState(() {
-                        widget.userType = LoginUserType.intlPhone;
-                      });
+                    // _switchAuthController.reverse().then((value) {
+                    setState(() {
+                      widget.userType = LoginUserType.intlPhone;
                     });
+                    // });
                   } else {
                     setState(() {
                       widget.userType = LoginUserType.intlPhone;
@@ -566,7 +562,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
               ? messages.signInWithPhoneButton
               : messages.defaultsignInWithEmail,
           style: TextStyle(
-              color: theme.colorScheme.secondary, fontWeight: FontWeight.bold),
+              color: theme.switchAuthTextColor, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
       ),
@@ -764,32 +760,48 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   }
 
   Widget _buildProvidersTitleFirst(LoginMessages messages) {
+    final loginTheme = Provider.of<LoginTheme>(context, listen: false);
+
     return ScaleTransition(
       scale: _buttonScaleAnimation,
       child: Row(
         children: <Widget>[
-          const Expanded(child: Divider()),
+          Expanded(
+              child: Divider(
+            color: loginTheme.bodyStyle?.color,
+          )),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(messages.providersTitleFirst),
           ),
-          const Expanded(child: Divider()),
+          Expanded(
+              child: Divider(
+            color: loginTheme.bodyStyle?.color,
+          )),
         ],
       ),
     );
   }
 
   Widget _buildProvidersTitleSecond(LoginMessages messages) {
+    final loginTheme = Provider.of<LoginTheme>(context, listen: false);
+
     return ScaleTransition(
       scale: _buttonScaleAnimation,
       child: Row(
         children: <Widget>[
-          const Expanded(child: Divider()),
+          Expanded(
+              child: Divider(
+            color: loginTheme.bodyStyle?.color,
+          )),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(messages.providersTitleSecond),
           ),
-          const Expanded(child: Divider()),
+          Expanded(
+              child: Divider(
+            color: loginTheme.bodyStyle?.color,
+          )),
         ],
       ),
     );
@@ -825,12 +837,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                     _buildUserField(textFieldWidth, messages, auth)
                   else if (widget.hasOtpSignIn)
                     _buildPhoneNumberField(textFieldWidth, messages, auth),
-                  if (widget.userType == LoginUserType.email)
-                    const SizedBox(height: 20),
-                  if (widget.userType == LoginUserType.email)
-                    _buildPasswordField(textFieldWidth, messages, auth),
-                  if (widget.userType == LoginUserType.email)
-                    const SizedBox(height: 10),
+                  const SizedBox(height: 20),
+                  _buildPasswordField(textFieldWidth, messages, auth),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
@@ -872,8 +881,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             child: AutofillGroup(
               child: Column(
                 children: <Widget>[
-                  if (!widget.hideForgotPasswordButton &&
-                      widget.userType == LoginUserType.email)
+                  if (!widget.hideForgotPasswordButton)
                     _buildForgotPassword(theme, messages)
                   else
                     SizedBox.fromSize(
@@ -896,7 +904,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                   else
                     Container(),
                   if (widget.hasOtpSignIn && widget.hasEmailSignIn)
-                    Center(child: _buildPhoneNumber(theme, messages, auth)),
+                    Center(
+                        child: _buildPhoneNumber(loginTheme, messages, auth)),
                   if (widget.hasPhone && widget.loginProviders!.isNotEmpty)
                     _buildProvidersTitleSecond(messages),
                   _buildProvidersLogInButton(theme, messages, auth, loginTheme),

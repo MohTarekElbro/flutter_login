@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter_login/src/models/login_user_type.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -52,7 +53,7 @@ class TextFieldUtils {
     }
   }
 
-  static String getLabelText(LoginUserType userType) {
+  static String getLabelText(LoginUserType userType, LoginMessages messages) {
     switch (userType) {
       case LoginUserType.name:
         return "Name";
@@ -62,10 +63,10 @@ class TextFieldUtils {
         return "Last Name";
       case LoginUserType.phone:
       case LoginUserType.intlPhone:
-        return "Phone";
+        return messages.phoneHint ?? "Phone";
       case LoginUserType.email:
       default:
-        return "Email";
+        return messages.userHint ?? "Email";
     }
   }
 }

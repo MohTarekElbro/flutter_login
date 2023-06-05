@@ -1,7 +1,7 @@
 part of auth_card_builder;
 
 class _RecoverCard extends StatefulWidget {
-  const _RecoverCard({
+  _RecoverCard({
     required this.userValidator,
     required this.onBack,
     required this.userType,
@@ -13,7 +13,7 @@ class _RecoverCard extends StatefulWidget {
 
   final FormFieldValidator<String>? userValidator;
   final VoidCallback onBack;
-  final LoginUserType userType;
+  LoginUserType userType;
   final LoginTheme? loginTheme;
   final bool navigateBack;
   final AnimationController loadingController;
@@ -143,6 +143,7 @@ class _RecoverCardState extends State<_RecoverCard>
     final cardWidth = min(deviceSize.width * 0.75, 360.0);
     const cardPadding = 16.0;
     final textFieldWidth = cardWidth - cardPadding * 2;
+    final loginTheme = Provider.of<LoginTheme>(context, listen: false);
 
     return FittedBox(
       child: WillPopScope(
@@ -177,7 +178,8 @@ class _RecoverCardState extends State<_RecoverCard>
                   ),
                   const SizedBox(height: 20),
                   _buildRecoverNameField(textFieldWidth, messages, auth),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
+                  _buildPhoneNumber(loginTheme, messages, auth),
                   Text(
                     auth.onConfirmRecover != null
                         ? messages.recoverCodePasswordDescription
@@ -193,6 +195,46 @@ class _RecoverCardState extends State<_RecoverCard>
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPhoneNumber(
+      LoginTheme theme, LoginMessages messages, Auth auth) {
+    return FadeIn(
+      controller: widget.loadingController,
+      fadeDirection: FadeDirection.bottomToTop,
+      offset: .5,
+      child: TextButton(
+        onPressed: () {
+          // save state to populate email field on recovery card
+          // widget.onSwitchPhoneNumber();
+          if (widget.userType == LoginUserType.email) {
+            if (!auth.isLogin) {
+              // _switchAuthController.reverse().then((value) {
+              setState(() {
+                widget.userType = LoginUserType.intlPhone;
+              });
+              // });
+            } else {
+              setState(() {
+                widget.userType = LoginUserType.intlPhone;
+              });
+            }
+          } else {
+            setState(() {
+              widget.userType = LoginUserType.email;
+            });
+          }
+        },
+        child: Text(
+          widget.userType == LoginUserType.email
+              ? messages.signInWithPhoneButton
+              : messages.defaultsignInWithEmail,
+          style: TextStyle(
+              color: theme.switchAuthTextColor, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
       ),
     );

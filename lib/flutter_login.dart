@@ -654,9 +654,7 @@ class _FlutterLoginState extends State<FlutterLogin>
                   : theme.textTheme.displaySmall!.color),
         )
         .merge(loginTheme.footerTextStyle);
-    final textStyle = theme.textTheme.bodyMedium!
-        .copyWith(color: blackOrWhite)
-        .merge(loginTheme.bodyStyle);
+    final textStyle = theme.textTheme.bodyMedium;
     final textFieldStyle = theme.textTheme.titleMedium!
         .copyWith(color: blackOrWhite, fontSize: 14)
         .merge(loginTheme.textFieldStyle);
@@ -664,7 +662,7 @@ class _FlutterLoginState extends State<FlutterLogin>
         .copyWith(color: Colors.white)
         .merge(loginTheme.buttonStyle);
     final cardTheme = loginTheme.cardTheme;
-    final inputTheme = loginTheme.inputTheme;
+    final inputTheme = theme.inputDecorationTheme;
     final buttonTheme = loginTheme.buttonTheme;
     final roundBorderRadius = BorderRadius.circular(100);
 
@@ -687,13 +685,12 @@ class _FlutterLoginState extends State<FlutterLogin>
         color: cardTheme.color ?? theme.cardColor,
         elevation: cardTheme.elevation ?? 12.0,
         margin: cardTheme.margin ?? const EdgeInsets.all(4.0),
-        shape: cardTheme.shape ??
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        shape: cardTheme.shape,
       ),
       inputDecorationTheme: theme.inputDecorationTheme.copyWith(
         filled: inputTheme.filled,
-        prefixIconColor: loginTheme.inputTheme.prefixIconColor,
-        suffixIconColor: loginTheme.inputTheme.suffixIconColor,
+        prefixIconColor: loginTheme.inputTheme?.prefixIconColor,
+        suffixIconColor: loginTheme.inputTheme?.suffixIconColor,
         fillColor: inputTheme.fillColor ??
             Color.alphaBlend(
               primaryOrWhite.withOpacity(.07),
@@ -735,7 +732,7 @@ class _FlutterLoginState extends State<FlutterLogin>
             ),
       ),
       floatingActionButtonTheme: theme.floatingActionButtonTheme.copyWith(
-        backgroundColor: buttonTheme.backgroundColor ?? primaryColor,
+        backgroundColor: buttonTheme.backgroundColor,
         splashColor: buttonTheme.splashColor ?? theme.colorScheme.secondary,
         elevation: buttonTheme.elevation ?? 4.0,
         highlightElevation: buttonTheme.highlightElevation ?? 2.0,

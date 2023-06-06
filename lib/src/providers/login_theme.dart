@@ -88,7 +88,7 @@ class LoginTheme with ChangeNotifier {
   final CardTheme cardTheme;
 
   /// Defines the appearance of all [TextField]s
-  final InputDecorationTheme inputTheme;
+  final InputDecorationTheme? inputTheme;
 
   /// A theme for customizing the shape, elevation, and color of the submit
   /// button

@@ -319,7 +319,7 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
           ),
           spaceBetweenSelectorAndTextField: 0,
           selectorTextStyle: TextStyle(
-            color: loginTheme.inputTheme.labelStyle?.color,
+            color: loginTheme.inputTheme?.labelStyle?.color,
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),

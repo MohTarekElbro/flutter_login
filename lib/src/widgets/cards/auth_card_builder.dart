@@ -316,7 +316,10 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
       child: AnimatedBuilder(
         animation: _cardOverlayHeightFactorAnimation,
         builder: (context, child) => ClipPath.shape(
-          shape: theme.cardTheme.shape!,
+          shape: theme.cardTheme.shape ??
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
           child: FractionallySizedBox(
             heightFactor: _cardOverlayHeightFactorAnimation.value,
             alignment: Alignment.topCenter,

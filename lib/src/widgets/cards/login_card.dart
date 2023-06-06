@@ -520,7 +520,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             : null,
         child: Text(
           messages.forgotPasswordButton,
-          style: theme.textTheme.bodyMedium,
+          // style: theme.textTheme.bodyMedium,
           textAlign: TextAlign.center,
         ),
       ),
@@ -601,13 +601,13 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       offset: .5,
       curve: _textButtonLoadingAnimationInterval,
       fadeDirection: FadeDirection.topToBottom,
-      child: MaterialButton(
-        disabledTextColor: theme.primaryColor,
+      child: TextButton(
+        // disabledTextColor: theme.primaryColor,
         onPressed: buttonEnabled ? _switchAuthMode : null,
-        padding: loginTheme.authButtonPadding ??
-            const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        textColor: loginTheme.switchAuthTextColor ?? calculatedTextColor,
+        // padding: loginTheme.authButtonPadding ??
+        //     const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
+        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        // textColor: loginTheme.switchAuthTextColor ?? calculatedTextColor,
         child: AnimatedText(
           text: auth.isSignup ? messages.loginButton : messages.signupButton,
           textRotation: AnimatedTextRotation.down,
@@ -762,15 +762,15 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   }
 
   Widget _buildProvidersTitleFirst(LoginMessages messages) {
-    final loginTheme = Provider.of<LoginTheme>(context, listen: false);
-
+    // final loginTheme = Provider.of<LoginTheme>(context, listen: false);
+    final theme = Theme.of(context);
     return ScaleTransition(
       scale: _buttonScaleAnimation,
       child: Row(
         children: <Widget>[
           Expanded(
               child: Divider(
-            color: loginTheme.bodyStyle?.color,
+            color: theme.textTheme.bodyMedium?.color,
           )),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -778,7 +778,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
           ),
           Expanded(
               child: Divider(
-            color: loginTheme.bodyStyle?.color,
+            color: theme.textTheme.bodyMedium?.color,
           )),
         ],
       ),
@@ -786,7 +786,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   }
 
   Widget _buildProvidersTitleSecond(LoginMessages messages) {
-    final loginTheme = Provider.of<LoginTheme>(context, listen: false);
+    // final loginTheme = Provider.of<LoginTheme>(context, listen: false);
+    final theme = Theme.of(context);
 
     return ScaleTransition(
       scale: _buttonScaleAnimation,
@@ -794,7 +795,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         children: <Widget>[
           Expanded(
               child: Divider(
-            color: loginTheme.bodyStyle?.color,
+            color: theme.textTheme.bodyMedium?.color,
           )),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -802,7 +803,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
           ),
           Expanded(
               child: Divider(
-            color: loginTheme.bodyStyle?.color,
+            color: theme.textTheme.bodyMedium?.color,
           )),
         ],
       ),
@@ -847,9 +848,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             ),
           ),
           ExpandableContainer(
-            backgroundColor: _switchAuthController.isCompleted
-                ? null
-                : theme.colorScheme.secondary,
+            backgroundColor:
+                _switchAuthController.isCompleted ? null : theme.primaryColor,
             controller: _switchAuthController,
             initialState: isLogin
                 ? ExpandableContainerState.shrunk

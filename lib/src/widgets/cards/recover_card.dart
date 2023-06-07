@@ -1,5 +1,6 @@
 part of auth_card_builder;
 
+// ignore: must_be_immutable
 class _RecoverCard extends StatefulWidget {
   _RecoverCard({
     required this.userValidator,

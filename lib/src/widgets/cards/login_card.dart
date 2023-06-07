@@ -1,5 +1,6 @@
 part of auth_card_builder;
 
+// ignore: must_be_immutable
 class _LoginCard extends StatefulWidget {
   _LoginCard({
     super.key,
@@ -592,10 +593,10 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     Auth auth,
     LoginTheme loginTheme,
   ) {
-    final calculatedTextColor =
-        (theme.cardTheme.color!.computeLuminance() < 0.5)
-            ? Colors.white
-            : theme.primaryColor;
+    // final calculatedTextColor =
+    //     (theme.cardTheme.color!.computeLuminance() < 0.5)
+    //         ? Colors.white
+    //         : theme.primaryColor;
     return FadeIn(
       controller: widget.loadingController,
       offset: .5,
@@ -836,9 +837,10 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   if (widget.introWidget != null) widget.introWidget!,
-                  if (widget.hasEmailSignIn)
+                  if (widget.hasEmailSignIn && userType == LoginUserType.email)
                     _buildUserField(textFieldWidth, messages, auth)
-                  else if (widget.hasOtpSignIn)
+                  else if (widget.hasOtpSignIn &&
+                      userType == LoginUserType.intlPhone)
                     _buildPhoneNumberField(textFieldWidth, messages, auth),
                   const SizedBox(height: 20),
                   _buildPasswordField(textFieldWidth, messages, auth),

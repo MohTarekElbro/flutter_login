@@ -192,7 +192,7 @@ class __HeaderState extends State<_Header> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
     const gap = 5.0;
     final logoHeight = min(
       (widget.height - MediaQuery.of(context).padding.top) - _titleHeight - gap,
@@ -217,26 +217,26 @@ class __HeaderState extends State<_Header> {
       );
     }
 
-    Widget? title;
-    if (widget.titleTag != null && !DartHelper.isNullOrEmpty(widget.title)) {
-      title = HeroText(
-        widget.title,
-        key: kTitleKey,
-        tag: widget.titleTag,
-        largeFontSize: widget.loginTheme.beforeHeroFontSize,
-        smallFontSize: widget.loginTheme.afterHeroFontSize,
-        style: theme.textTheme.displaySmall,
-        viewState: ViewState.enlarged,
-      );
-    } else if (!DartHelper.isNullOrEmpty(widget.title)) {
-      title = Text(
-        widget.title!,
-        key: kTitleKey,
-        style: theme.textTheme.displaySmall,
-      );
-    } else {
-      title = null;
-    }
+    // Widget? title;
+    // if (widget.titleTag != null && !DartHelper.isNullOrEmpty(widget.title)) {
+    //   title = HeroText(
+    //     widget.title,
+    //     key: kTitleKey,
+    //     tag: widget.titleTag,
+    //     largeFontSize: widget.loginTheme.beforeHeroFontSize,
+    //     smallFontSize: widget.loginTheme.afterHeroFontSize,
+    //     style: theme.textTheme.displaySmall,
+    //     viewState: ViewState.enlarged,
+    //   );
+    // } else if (!DartHelper.isNullOrEmpty(widget.title)) {
+    //   title = Text(
+    //     widget.title!,
+    //     key: kTitleKey,
+    //     style: theme.textTheme.displaySmall,
+    //   );
+    // } else {
+    //   title = null;
+    // }
 
     return SafeArea(
       child: Container(

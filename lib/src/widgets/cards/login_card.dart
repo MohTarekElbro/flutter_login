@@ -420,34 +420,6 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildMoblieField(
-    double width,
-    LoginMessages messages,
-    Auth auth,
-  ) {
-    return AnimatedTextFormField(
-      textFormFieldKey: _userFieldKey,
-      userType: LoginUserType.intlPhone,
-      controller: _phoneController,
-      width: width,
-      loadingController: widget.loadingController,
-      interval: _nameTextFieldLoadingAnimationInterval,
-      labelText: TextFieldUtils.getLabelText(userType, messages),
-      autofillHints:
-          _isSubmitting ? null : [TextFieldUtils.getAutofillHints(userType)],
-      prefixIcon: TextFieldUtils.getPrefixIcon(userType),
-      keyboardType: TextFieldUtils.getKeyboardType(userType),
-      textInputAction: TextInputAction.next,
-      focusNode: _userFocusNode,
-      onFieldSubmitted: (value) {
-        FocusScope.of(context).requestFocus(_passwordFocusNode);
-      },
-      validator: widget.userValidator,
-      onSaved: (value) => auth.email = value!,
-      enabled: !_isSubmitting,
-    );
-  }
-
   Widget _buildPasswordField(double width, LoginMessages messages, Auth auth) {
     return AnimatedPasswordTextFormField(
       animatedWidth: width,

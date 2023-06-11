@@ -229,21 +229,6 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
     });
   }
 
-  Future<void>? runLoadingAnimation() {
-    if (widget.loadingController.isDismissed) {
-      return widget.loadingController.forward().then((_) {
-        if (!_isLoadingFirstTime) {
-          _formLoadingController.forward();
-        }
-      });
-    } else if (widget.loadingController.isCompleted) {
-      return _formLoadingController
-          .reverse()
-          .then((_) => widget.loadingController.reverse());
-    }
-    return null;
-  }
-
   Future<void> _forwardChangeRouteAnimation(GlobalKey cardKey) {
     final deviceSize = MediaQuery.of(context).size;
     final cardSize = getWidgetSize(cardKey)!;
@@ -270,20 +255,6 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
     return _formLoadingController
         .reverse()
         .then((_) => _routeTransitionController.forward());
-  }
-
-  void _reverseChangeRouteAnimation() {
-    _routeTransitionController
-        .reverse()
-        .then((_) => _formLoadingController.forward());
-  }
-
-  void runChangeRouteAnimation() {
-    if (_routeTransitionController.isCompleted) {
-      _reverseChangeRouteAnimation();
-    } else if (_routeTransitionController.isDismissed) {
-      _forwardChangeRouteAnimation(_loginCardKey);
-    }
   }
 
   void runChangePageAnimation() {
@@ -351,7 +322,6 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
   Widget _changeToCard(BuildContext context, int index) {
     final auth = Provider.of<Auth>(context, listen: false);
     final formController = _formLoadingController;
-    // if (!_isLoadingFirstTime) formController = _formLoadingController..value = 1.0;
     Future<bool> requireSignUpConfirmation() async {
       final confirmSignupRequired = await auth.confirmSignupRequired?.call(
             LoginData(

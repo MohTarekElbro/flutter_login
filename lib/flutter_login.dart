@@ -553,66 +553,66 @@ class _FlutterLoginState extends State<FlutterLogin>
     );
   }
 
-  Widget _buildDebugAnimationButtons() {
-    const textStyle = TextStyle(fontSize: 12, color: Colors.white);
+  // Widget _buildDebugAnimationButtons() {
+  //   const textStyle = TextStyle(fontSize: 12, color: Colors.white);
 
-    return Positioned(
-      bottom: 0,
-      right: 0,
-      child: Row(
-        key: kDebugToolbarKey,
-        children: <Widget>[
-          MaterialButton(
-            color: Colors.green,
-            onPressed: () {
-              timeDilation = 1.0;
-              showModalBottomSheet(
-                context: context,
-                builder: (_) {
-                  return _AnimationTimeDilationDropdown(
-                    initialValue: _selectTimeDilation,
-                    onChanged: (int index) {
-                      setState(() {
-                        _selectTimeDilation = _AnimationTimeDilationDropdown
-                            .animationSpeeds[index]
-                            .toDouble();
-                      });
-                    },
-                  );
-                },
-              ).then((_) {
-                // wait until the BottomSheet close animation finishing before
-                // assigning or you will have to watch x100 time slower animation
-                Future.delayed(const Duration(milliseconds: 300), () {
-                  timeDilation = _selectTimeDilation;
-                });
-              });
-            },
-            child: const Text('OPTIONS', style: textStyle),
-          ),
-          MaterialButton(
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            color: Colors.blue,
-            onPressed: () => authCardKey.currentState!.runLoadingAnimation(),
-            child: const Text('LOADING', style: textStyle),
-          ),
-          MaterialButton(
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            color: Colors.orange,
-            onPressed: () => authCardKey.currentState!.runChangePageAnimation(),
-            child: const Text('PAGE', style: textStyle),
-          ),
-          MaterialButton(
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            color: Colors.red,
-            onPressed: () =>
-                authCardKey.currentState!.runChangeRouteAnimation(),
-            child: const Text('NAV', style: textStyle),
-          ),
-        ],
-      ),
-    );
-  }
+  //   return Positioned(
+  //     bottom: 0,
+  //     right: 0,
+  //     child: Row(
+  //       key: kDebugToolbarKey,
+  //       children: <Widget>[
+  //         MaterialButton(
+  //           color: Colors.green,
+  //           onPressed: () {
+  //             timeDilation = 1.0;
+  //             showModalBottomSheet(
+  //               context: context,
+  //               builder: (_) {
+  //                 return _AnimationTimeDilationDropdown(
+  //                   initialValue: _selectTimeDilation,
+  //                   onChanged: (int index) {
+  //                     setState(() {
+  //                       _selectTimeDilation = _AnimationTimeDilationDropdown
+  //                           .animationSpeeds[index]
+  //                           .toDouble();
+  //                     });
+  //                   },
+  //                 );
+  //               },
+  //             ).then((_) {
+  //               // wait until the BottomSheet close animation finishing before
+  //               // assigning or you will have to watch x100 time slower animation
+  //               Future.delayed(const Duration(milliseconds: 300), () {
+  //                 timeDilation = _selectTimeDilation;
+  //               });
+  //             });
+  //           },
+  //           child: const Text('OPTIONS', style: textStyle),
+  //         ),
+  //         MaterialButton(
+  //           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+  //           color: Colors.blue,
+  //           onPressed: () => authCardKey.currentState!.runLoadingAnimation(),
+  //           child: const Text('LOADING', style: textStyle),
+  //         ),
+  //         MaterialButton(
+  //           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+  //           color: Colors.orange,
+  //           onPressed: () => authCardKey.currentState!.runChangePageAnimation(),
+  //           child: const Text('PAGE', style: textStyle),
+  //         ),
+  //         MaterialButton(
+  //           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+  //           color: Colors.red,
+  //           onPressed: () =>
+  //               authCardKey.currentState!.runChangeRouteAnimation(),
+  //           child: const Text('NAV', style: textStyle),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   ThemeData _mergeTheme({
     required ThemeData theme,
@@ -876,8 +876,8 @@ class _FlutterLoginState extends State<FlutterLogin>
                 ),
               ),
             ),
-            if (!kReleaseMode && widget.showDebugButtons)
-              _buildDebugAnimationButtons(),
+            // if (!kReleaseMode && widget.showDebugButtons)
+            //   _buildDebugAnimationButtons(),
           ],
         ),
       ),
